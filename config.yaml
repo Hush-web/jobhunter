@@ -1,0 +1,131 @@
+﻿# Personal digest threshold (lower = more jobs, more noise)
+min_score: 4
+
+# Public broadcast threshold (higher = only strong fits go to the channel)
+public_min_score: 6
+
+# Seniority blocklist — instant reject if in TITLE
+title_blocklist:
+  - senior
+  - sr.
+  - sr 
+  - staff
+  - principal
+  - lead
+  - head of
+  - director
+  - manager
+  - vp
+  - chief
+  - architect
+
+# Off-domain roles — instant reject if in TITLE
+# (loosened: removed frontend, full stack, solutions, support)
+title_role_blocklist:
+  - devops
+  - sre
+  - qa
+  - quality assurance
+  - test engineer
+  - sales
+  - marketing
+  - designer
+  - data scientist
+  - mobile
+  - android
+  - ios
+
+# Title gate — job title must contain at least one of these
+title_must_match_any:
+  - python
+  - ai
+  - llm
+  - ml
+  - machine learning
+  - automation
+  - backend
+  - back-end
+  - back end
+  - rag
+  - agent
+  - software engineer
+  - software developer
+  - developer
+  - engineer
+  - data
+  - api
+  - platform
+  - infrastructure
+  - founding engineer
+
+# Bonus points for these in the TITLE
+title_bonus:
+  python: 4
+  llm: 5
+  rag: 5
+  langchain: 4
+  langgraph: 5
+  agent: 4
+  automation: 4
+  ai engineer: 6
+  founding engineer: 6
+  junior: 5
+  entry: 4
+  associate: 3
+  graduate: 4
+  intern: 2
+  backend: 2
+  developer: 1
+
+# Positive keyword matches anywhere
+positive_keywords:
+  python: 2
+  fastapi: 2
+  langchain: 2
+  langgraph: 3
+  rag: 2
+  "retrieval augmented": 2
+  llm: 2
+  openai: 1
+  anthropic: 1
+  prompt: 1
+  embeddings: 1
+  "vector database": 1
+  qdrant: 1
+  junior: 3
+  "entry level": 3
+  "new grad": 3
+  "1+ years": 2
+  "2+ years": 2
+  remote: 1
+
+# Negative keyword matches anywhere
+negative_keywords:
+  "5+ years": 6
+  "7+ years": 8
+  "10+ years": 10
+  "security clearance": 10
+  "must be located in the us": 8
+  "us only": 8
+  "usa only": 8
+  "uk only": 6
+  "canada only": 6
+  "eu only": 3
+  clearance: 6
+  "top secret": 10
+  kubernetes: 2
+  terraform: 2
+
+blocked_locations:
+  - "usa only"
+  - "us only"
+  - "united states only"
+  - "canada only"
+  - "uk only"
+
+ok_locations:
+  - worldwide
+  - anywhere
+  - global
+  - remote
+  - "any location"
