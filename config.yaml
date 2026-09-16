@@ -1,10 +1,6 @@
-﻿# Personal digest threshold (lower = more jobs, more noise)
-min_score: 4
-
-# Public broadcast threshold (higher = only strong fits go to the channel)
+﻿min_score: 4
 public_min_score: 6
 
-# Seniority blocklist — instant reject if in TITLE
 title_blocklist:
   - senior
   - sr.
@@ -19,8 +15,6 @@ title_blocklist:
   - chief
   - architect
 
-# Off-domain roles — instant reject if in TITLE
-# (loosened: removed frontend, full stack, solutions, support)
 title_role_blocklist:
   - devops
   - sre
@@ -34,31 +28,58 @@ title_role_blocklist:
   - mobile
   - android
   - ios
+  - data analyst
+  - data entry
+  - data engineer
+  - business analyst
+  - project manager
+  - product manager
+  - scrum
+  - rpg
+  - as400
+  - cobol
+  - mainframe
+  - service desk
+  - help desk
+  - helpdesk
+  - it support
+  - technical support
+  - customer support
+  - tier i
+  - tier ii
+  - tier iii
+  - administrator
+  - admin
+  - coordinator
+  - assistant
+  - specialist
 
-# Title gate — job title must contain at least one of these
 title_must_match_any:
   - python
-  - ai
+  - ai engineer
+  - ai application
+  - ai/ml
+  - ml engineer
   - llm
-  - ml
   - machine learning
-  - automation
+  - automation engineer
   - backend
   - back-end
   - back end
   - rag
-  - agent
+  - langchain
+  - langgraph
+  - agentic
+  - agent engineer
   - software engineer
   - software developer
-  - developer
-  - engineer
-  - data
-  - api
-  - platform
-  - infrastructure
   - founding engineer
+  - founding developer
+  - full stack engineer
+  - full stack developer
+  - full-stack engineer
+  - full-stack developer
 
-# Bonus points for these in the TITLE
 title_bonus:
   python: 4
   llm: 5
@@ -66,6 +87,7 @@ title_bonus:
   langchain: 4
   langgraph: 5
   agent: 4
+  agentic: 5
   automation: 4
   ai engineer: 6
   founding engineer: 6
@@ -75,9 +97,7 @@ title_bonus:
   graduate: 4
   intern: 2
   backend: 2
-  developer: 1
 
-# Positive keyword matches anywhere
 positive_keywords:
   python: 2
   fastapi: 2
@@ -99,7 +119,6 @@ positive_keywords:
   "2+ years": 2
   remote: 1
 
-# Negative keyword matches anywhere
 negative_keywords:
   "5+ years": 6
   "7+ years": 8
