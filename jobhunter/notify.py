@@ -34,31 +34,32 @@ def format_digest(rows: list[sqlite3.Row], max_items: int = 15) -> str:
 
 
 def _send(token: str, chat_id: str, text: str) -> bool:
-    ok = True
     for chunk in [text[i:i + MAX_LEN] for i in range(0, len(text), MAX_LEN)]:
         try:
             resp = requests.post(
                 f"https://api.telegram.org/bot{token}/sendMessage",
-                json={
-                    "chat_id": chat_id,
-                    "text": chunk,
-                    "parse_mode": "Markdown",
-                    "disable_web_page_preview": True,
-                },
+                json={"chat_id": chat_id, "text": chunk,
+                      "parse_mode": "Markdown", "disable_web_page_preview": True},
                 timeout=20,
             )
-            if resp.status_code != 200:
-                # Retry without markdown if formatting broke
-                requests.post(
+            data = resp.json()
+            if not data.get("ok"):
+                print(f"Telegram error (markdown): {data.get('description')}")
+                resp2 = requests.post(
                     f"https://api.telegram.org/bot{token}/sendMessage",
                     json={"chat_id": chat_id, "text": chunk,
                           "disable_web_page_preview": True},
                     timeout=20,
                 )
+                data2 = resp2.json()
+                if not data2.get("ok"):
+                    print(f"Telegram error (plain): {data2.get('description')}")
+                    return False
             time.sleep(0.5)
-        except Exception:
-            ok = False
-    return ok
+        except Exception as e:
+            print(f"Telegram exception: {e}")
+            return False
+    return True
 
 
 def send_digest(rows: list[sqlite3.Row]) -> None:
@@ -71,6 +72,7 @@ def send_digest(rows: list[sqlite3.Row]) -> None:
         return
 
     if not rows:
+        print("No rows to send.")
         return
 
     text = format_digest(rows)
