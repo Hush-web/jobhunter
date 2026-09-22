@@ -121,6 +121,8 @@ def fetch_wwr() -> list[Job]:
     return jobs
 
 
+# ---- Registry ----
+
 SOURCES: dict[str, Callable[[], list[Job]]] = {
     "remotive": fetch_remotive,
     "remoteok": fetch_remoteok,
@@ -132,14 +134,36 @@ SOURCES: dict[str, Callable[[], list[Job]]] = {
     "nodesk": sources_extra.fetch_nodesk,
 }
 
+SOURCE_NAMES = list(SOURCES.keys())
 
-def fetch_all() -> list[Job]:
+
+# ---- Public API ----
+
+def fetch_one(name: str) -> list[Job]:
+    """Fetch jobs from a single named source."""
+    if name not in SOURCES:
+        raise ValueError(f"Unknown source: {name}. Try one of: {SOURCE_NAMES}")
+    return SOURCES[name]()
+
+
+def fetch_all(sources: list[str] | None = None) -> list[Job]:
+    """
+    Fetch jobs from all (or selected) sources.
+    If `sources` is None, uses every registered source.
+    """
+    selected = sources or SOURCE_NAMES
     all_jobs: list[Job] = []
-    for name, fn in SOURCES.items():
+
+    for name in selected:
+        fn = SOURCES.get(name)
+        if fn is None:
+            log.warning("Unknown source: %s", name)
+            continue
         try:
             jobs = fn()
             log.info("%s: %d jobs", name, len(jobs))
             all_jobs.extend(jobs)
         except Exception as e:
             log.warning("%s failed: %s", name, e)
+
     return all_jobs
